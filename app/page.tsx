@@ -1,10 +1,11 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import React from 'react';
 
 function Home() {
   return (
-    <h1>Hello</h1>
+    <Button variant="default">Hello</Button>
   );
 }
 

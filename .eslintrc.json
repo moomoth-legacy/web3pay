@@ -12,6 +12,7 @@
       "some": ["nesting", "id"]
     }
   }],
+  "import/no-extraneous-dependencies": ["error", {"devDependencies": false, "optionalDependencies": false, "peerDependencies": false}],
   "jsx-a11y/label-has-for": ["error", {
     "required": {
       "some": ["nesting", "id"]

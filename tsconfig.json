@@ -31,6 +31,6 @@
       ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(launchpad)/create-nft", "config/GoogleAnalytics.js", "hooks/useEthereumAddressSVG.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
