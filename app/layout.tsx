@@ -17,8 +17,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="flex flex-col h-screen">
             <Sidebar />
             <main className="w-full pl-[300px] pt-16 pb-12">{children}</main>
-            <Footer />
           </div>
+          <Footer />
         </body>
       </ThirdwebProvider>
     </html>
