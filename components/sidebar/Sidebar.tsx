@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import { SiGoogledocs } from 'react-icons/si';
-import { MdPayment } from 'react-icons/md';
+import { SiGoogledocs, SiWebmoney } from 'react-icons/si';
 
 function Sidebar() {
   return (
@@ -12,7 +11,7 @@ function Sidebar() {
             href="/"
             className="flex items-center p-2 space-x-3 rounded-md"
           >
-            <MdPayment />
+            <SiWebmoney />
             <span className="text-2xl">Web3Pay</span>
           </Link>
         </li>
