@@ -13,20 +13,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         activeChain="polygon"
       >
         <body>
-          {/* <div className="flex">
-            <div className="flex flex-col h-screen p-3 bg-white shadow w-60">
-              <div className="space-y-3">
-                <div className="flex items-center">
-                  <h2 className="text-xl font-bold">Dashboard</h2>
-                </div>
-                <Sidebar />
-              </div>
-              {children}
-            </div>
-            <div className="container mx-auto mt-12">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4" />
-            </div>
-          </div> */}
           <div className="flex h-screen overflow-hidden">
             <Sidebar />
             <main className="w-full pt-16">{children}</main>

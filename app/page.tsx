@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
-import InvoiceForm from '@/components/invoice/Invoice';
+import Help from '@/components/help/Help';
 
 function Home() {
   return (
-    <InvoiceForm />
+    <Help />
   );
 }
 
