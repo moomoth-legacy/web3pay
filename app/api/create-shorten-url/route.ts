@@ -9,6 +9,7 @@ export async function GET(request: NextRequest) {
   try {
     await MongooseConnection.connectAdmin();
     const code = request.nextUrl.searchParams.get('code');
+    console.log(code);
     const shortenUrl = await ShortenUrl.findOne({ shortenURL: code }).populate('invoiceId');
 
     if (!shortenUrl) {
@@ -31,6 +32,10 @@ export async function POST(req: any) {
   try {
     await MongooseConnection.connectAdmin();
     const { invoiceId } = await req.json(); // Extract data from request body
+    const data = await ShortenUrl.findOne({ invoiceId });
+    if (data) {
+      return NextResponse.json({ message: 'Address Book fetched', class: data });
+    }
     const hash = getHash();
     const payload = { invoiceId, shortenURL: hash };
     const newAddress = new ShortenUrl(payload);
