@@ -44,16 +44,21 @@ const invoiceSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  description: {
-    type: String,
-    required: true,
-  },
   issueDate: {
     type: Date,
     required: true,
   },
   dueDate: {
     type: Date,
+    required: true,
+  },
+  note: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  total: {
+    type: Number,
     required: true,
   },
   createdAt: {

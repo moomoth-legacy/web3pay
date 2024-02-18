@@ -31,7 +31,8 @@ function AddressForm() {
     event.preventDefault();
     console.log(formData);
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/address-book`, formData);
+      const result = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/address-book`, formData);
+      console.log(result.data);
     } catch (error) {
       console.error('Error submitting invoice:', error);
     }

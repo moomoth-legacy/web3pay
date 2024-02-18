@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable no-underscore-dangle */
+import React, { useEffect } from 'react';
 import {
   Select,
   SelectContent,
@@ -21,29 +22,68 @@ import {
 } from '@/components/ui/popover';
 import { CalendarIcon } from '@radix-ui/react-icons';
 import cn from '@/lib/utils';
+import { useAddress } from '@thirdweb-dev/react';
+
+// Assuming your form data type looks like this
+interface FormDataType {
+  invoiceName: string;
+  billTo: string;
+  from: string;
+  invoiceCurrency: string;
+  wallet: string | undefined;
+  item: string;
+  quantity: number;
+  price: number;
+  discount: number;
+  tax: number;
+  total: number;
+  note: string;
+  issueDate: Date;
+  dueDate: Date;
+}
 
 function InvoiceForm() {
-  const [formData, setFormData] = React.useState({
+  const address = useAddress();
+  const [formData, setFormData] = React.useState<FormDataType>({
     invoiceName: '',
     billTo: '',
     from: '',
     invoiceCurrency: 'polygon',
-    wallet: 'demo', // Assuming this is a fixed value
+    wallet: address, // Assuming this is a fixed value
     item: '',
-    quantity: '',
-    price: '',
-    discount: '',
-    tax: '',
-    Total: '',
-    Note: '',
-    description: '',
+    quantity: 0,
+    price: 0,
+    discount: 0,
+    tax: 0,
+    total: 0,
+    note: '',
     issueDate: new Date(),
     dueDate: new Date(),
   });
+  const [invoiceId, setInvoiceId] = React.useState('');
+  const [billTo, setBillTo] = React.useState('');
+  const [fromValue, setFormValue] = React.useState('');
+  const calculateTotal = () => {
+    const {
+      quantity, price, discount, tax,
+    } = formData;
+    const totalPrice = quantity * price;
+    const discountedPrice = totalPrice - (totalPrice * discount) / 100;
+    const totalTax = (discountedPrice * tax) / 100;
+    const total = discountedPrice + totalTax;
+    return total; // Assuming you want to keep the total to two decimal places
+  };
+  const [clients, setClients] = React.useState([]);
+  const [issueDate, setIssueDate] = React.useState(new Date());
+
+  const handleIssueDate = (e: any) => {
+    console.log(e);
+    setIssueDate(e);
+  };
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
+    setFormData((prevState: FormDataType) => ({
       ...prevState,
       [name]: value,
     }));
@@ -51,44 +91,76 @@ function InvoiceForm() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(formData, typeof formData);
+    formData.total = calculateTotal();
+    formData.billTo = billTo;
+    formData.wallet = address;
+    formData.from = fromValue;
+    console.log(formData);
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/invoice`, formData);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/invoice`, formData);
+      setInvoiceId(response.data.invoice._id);
+      console.log(response.data.invoice);
     } catch (error) {
       console.error('Error submitting invoice:', error);
     }
   };
 
+  const createShortenURL = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/create-shorten-url`, { invoiceId });
+    } catch (error) {
+      console.error('Error submitting invoice:', error);
+    }
+  };
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/address-book`);
+        setClients(response.data.addresses);
+      } catch (error) {
+        console.error('Error submitting invoice:', error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <div className="flex items-center ml-16 min-w-3/4">
-      <form>
+      <form onSubmit={(event) => { handleSubmit(event); }}>
         <Label className="mt-8 mb-4" htmlFor="invoiceName">Invoice Name</Label>
         <Input placeholder="Invoice #1" className="w-[600px]" name="invoiceName" value={formData.invoiceName} onChange={handleInputChange} />
         <div className="flex flex-row mt-8 mb-4 space-x-8">
           <div className="flex flex-col w-full">
             <Label className="mb-4" htmlFor="billTo">Bill To</Label>
-            <Select name="billTo">
+            <Select name="billTo" onValueChange={setBillTo} defaultValue={billTo}>
               <SelectTrigger className="w-full h-32">
                 <SelectValue placeholder="Choose Client" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Client 1">Client 1 Contact</SelectItem>
-                <SelectItem value="Client 2">Client 2 Contact</SelectItem>
-                <SelectItem value="Client 3">Client 3 Contact</SelectItem>
+                {
+                  clients.map((value: any) => (
+                    <SelectItem value={value._id}>
+                      {`${value.ClientName} Contact`}
+                    </SelectItem>
+                  ))
+                }
               </SelectContent>
             </Select>
 
             <Label className="mt-2 mb-4" htmlFor="wallet">Client Wallet</Label>
-            <Input className="mt-2 mb-2" name="wallet" placeholder="0x..." value={formData.wallet} readOnly />
+            <Input className="mt-2 mb-2" name="wallet" value={address} readOnly />
           </div>
           <div className="flex flex-col w-full">
             <Label className="mb-4" htmlFor="from">From</Label>
-            <Select name="from">
+            <Select name="from" onValueChange={setFormValue} defaultValue={fromValue}>
               <SelectTrigger className="w-full h-32">
                 <SelectValue placeholder="Choose Client" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Client 1">From Info</SelectItem>
+                <SelectItem value="From Info">From Info</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -130,11 +202,11 @@ function InvoiceForm() {
         </div>
         <div className="flex flex-col float-right">
           <Label className="mt-8 mb-4" htmlFor="Total">Total</Label>
-          <Input className="mt-2 mb-2" name="Total" type="number" value={formData.Total} onChange={handleInputChange} />
+          <Input className="mt-2 mb-2" name="total" type="number" value={calculateTotal()} readOnly />
         </div>
         <div className="flex flex-col mt-32 mb-14">
           <Label className="mt-4 mb-4" htmlFor="Note">Note</Label>
-          <Textarea className="mt-2 mb-2" name="Note" value={formData.Note} onChange={handleInputChange} />
+          <Textarea className="mt-2 mb-2" name="note" value={formData.note} onChange={handleInputChange} />
         </div>
         <div className="flex flex-col mt-32 mb-14">
           <Label className="mt-4 mb-4" htmlFor="Note">Issue Date </Label>
@@ -144,18 +216,18 @@ function InvoiceForm() {
                 variant="outline"
                 className={cn(
                   'w-[280px] justify-start text-left font-normal',
-                  !formData.issueDate && 'text-muted-foreground',
+                  !issueDate && 'text-muted-foreground',
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {formData.issueDate ? format(formData.issueDate, 'PPP') : <span>Pick a Issue Date</span>}
+                {issueDate ? format(issueDate, 'PPP') : <span>Pick a Issue Date</span>}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
               <Calendar
                 mode="single"
-                selected={formData.issueDate}
-                onSelect={handleInputChange}
+                selected={issueDate}
+                onSelect={handleIssueDate}
                 initialFocus
               />
             </PopoverContent>
@@ -165,6 +237,7 @@ function InvoiceForm() {
           <Button type="submit" variant="default" size="lg">Create Web3 Invoice</Button>
         </div>
       </form>
+      <Button type="submit" variant="default" size="lg" onClick={(event) => { createShortenURL(event); }}>Create Shorten URL</Button>
     </div>
   );
 }
