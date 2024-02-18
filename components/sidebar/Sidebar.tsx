@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import React from 'react';
 import { SiGoogledocs, SiWebmoney } from 'react-icons/si';
+import {
+  FaFileInvoice, FaFileInvoiceDollar, FaSignOutAlt, FaUserPlus,
+} from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
@@ -13,8 +16,12 @@ function Sidebar() {
             href="/"
             className="flex items-center p-2 space-x-3 rounded-md"
           >
-            <SiWebmoney />
-            <h1 className="text-2xl font-extrabold">Web3Pay</h1>
+            <div className="flex flex-row">
+              <SiWebmoney className="ml-4 mt-10 mr-4" />
+              <h1 className="text-2xl font-extrabold mt-8 mb-14">
+                Web3Pay
+              </h1>
+            </div>
           </Link>
         </li>
         <li className="rounded-sm">
@@ -22,7 +29,7 @@ function Sidebar() {
             href="/address-book"
             className="flex items-center p-2 space-x-3 rounded-md"
           >
-            <SiGoogledocs />
+            <FaUserPlus />
             <Button variant="ghost" className="text-lg">Add Client</Button>
           </Link>
         </li>
@@ -31,7 +38,7 @@ function Sidebar() {
             href="/invoice"
             className="flex items-center p-2 space-x-3 rounded-md"
           >
-            <SiGoogledocs />
+            <FaFileInvoiceDollar />
             <Button variant="ghost" className="text-lg">Create Invoice</Button>
           </Link>
         </li>
@@ -40,7 +47,7 @@ function Sidebar() {
             href="/manage-invoice"
             className="flex items-center p-2 space-x-3 rounded-md"
           >
-            <SiGoogledocs />
+            <FaFileInvoice />
             <Button variant="ghost" className="text-lg">Manage Invoices</Button>
           </Link>
         </li>
@@ -58,7 +65,7 @@ function Sidebar() {
             href="logout"
             className="flex items-center p-2 space-x-3 rounded-md"
           >
-            <SiGoogledocs />
+            <FaSignOutAlt />
             <Button variant="ghost" className="text-lg">Logout</Button>
           </Link>
         </li>
