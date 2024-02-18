@@ -9,15 +9,26 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Button } from '../ui/button';
+import axios from 'axios';
+import { format } from 'date-fns';
+
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { CalendarIcon } from '@radix-ui/react-icons';
+import cn from '@/lib/utils';
 
 function InvoiceForm() {
   const [formData, setFormData] = React.useState({
     invoiceName: '',
     billTo: '',
     from: '',
-    invoiceCurrency: '',
-    wallet: '', // Assuming this is a fixed value
+    invoiceCurrency: 'polygon',
+    wallet: 'demo', // Assuming this is a fixed value
     item: '',
     quantity: '',
     price: '',
@@ -25,11 +36,12 @@ function InvoiceForm() {
     tax: '',
     Total: '',
     Note: '',
-    issueDate: null,
-    dueDate: null,
+    description: '',
+    issueDate: new Date(),
+    dueDate: new Date(),
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -37,12 +49,15 @@ function InvoiceForm() {
     }));
   };
 
-  // Placeholder options for the dropdown
-  const currencyOptions = [
-    { label: 'USD', value: 'USD' },
-    { label: 'EUR', value: 'EUR' },
-    { label: 'JPY', value: 'JPY' },
-  ];
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(formData, typeof formData);
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/invoice`, formData);
+    } catch (error) {
+      console.error('Error submitting invoice:', error);
+    }
+  };
 
   return (
     <div className="flex items-center ml-16 min-w-3/4">
@@ -121,6 +136,31 @@ function InvoiceForm() {
         <div className="flex flex-col mt-32 mb-14">
           <Label className="mt-4 mb-4" htmlFor="Note">Note</Label>
           <Textarea className="mt-2 mb-2" name="Note" value={formData.Note} onChange={handleInputChange} />
+        </div>
+        <div className="flex flex-col mt-32 mb-14">
+          <Label className="mt-4 mb-4" htmlFor="Note">Issue Date </Label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn(
+                  'w-[280px] justify-start text-left font-normal',
+                  !formData.issueDate && 'text-muted-foreground',
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {formData.issueDate ? format(formData.issueDate, 'PPP') : <span>Pick a Issue Date</span>}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <Calendar
+                mode="single"
+                selected={formData.issueDate}
+                onSelect={handleInputChange}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
         </div>
         <div className="flex items-center">
           <Button type="submit" variant="default" size="lg">Create Web3 Invoice</Button>
