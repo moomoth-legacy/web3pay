@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import axios from 'axios';
 import { format } from 'date-fns';
 
@@ -23,6 +22,7 @@ import {
 import { CalendarIcon } from '@radix-ui/react-icons';
 import cn from '@/lib/utils';
 import { useAddress } from '@thirdweb-dev/react';
+import { Label } from '@radix-ui/react-label';
 
 // Assuming your form data type looks like this
 interface FormDataType {
@@ -42,7 +42,12 @@ interface FormDataType {
   dueDate: Date;
 }
 
-function InvoiceForm({ status, code }: props) {
+interface Props {
+  status: string;
+  code: string;
+}
+
+function InvoiceForm({ status, code }: Props) {
   const address = useAddress();
   const [formData, setFormData] = React.useState<FormDataType>({
     invoiceName: '',
@@ -60,7 +65,6 @@ function InvoiceForm({ status, code }: props) {
     issueDate: new Date(),
     dueDate: new Date(),
   });
-  const [invoiceId, setInvoiceId] = React.useState('');
   const [billTo, setBillTo] = React.useState('');
   const [fromValue, setFormValue] = React.useState('');
   const calculateTotal = () => {
@@ -98,17 +102,7 @@ function InvoiceForm({ status, code }: props) {
     console.log(formData);
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/invoice`, formData);
-      setInvoiceId(response.data.invoice._id);
       console.log(response.data.invoice);
-    } catch (error) {
-      console.error('Error submitting invoice:', error);
-    }
-  };
-
-  const createShortenURL = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    try {
-      await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/create-shorten-url`, { invoiceId });
     } catch (error) {
       console.error('Error submitting invoice:', error);
     }
@@ -126,7 +120,16 @@ function InvoiceForm({ status, code }: props) {
   async function fetchInvoice() {
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/create-shorten-url?code=${code.split('/')[1]}`);
-      console.log(response);
+      const invoiceData = response.data.addresses[0].invoiceId;
+      console.log(invoiceData, response.data);
+
+      setFormData({
+        ...invoiceData,
+        issueDate: new Date(invoiceData.issueDate),
+        dueDate: new Date(invoiceData.dueDate),
+      });
+      setBillTo(invoiceData.billTo);
+      setFormValue(invoiceData.from);
     } catch (error) {
       console.error('Error submitting invoice:', error);
     }
@@ -247,7 +250,8 @@ function InvoiceForm({ status, code }: props) {
           </Popover>
         </div>
         <div className="flex items-center">
-          <Button type="submit" variant="default" size="lg">Create Web3 Invoice</Button>
+          {status !== 'update' && <Button type="submit" variant="default" size="lg">Create Web3 Invoice</Button>}
+          {status === 'update' && <Button type="submit" variant="default" size="lg">Pay</Button>}
         </div>
       </form>
     </div>

@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 'use client';
 
 import * as React from 'react';
