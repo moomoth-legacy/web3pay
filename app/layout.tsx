@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ThirdwebProvider } from '@thirdweb-dev/react';
+import { ConnectWallet, ThirdwebProvider } from '@thirdweb-dev/react';
 import '@/app/globals.css';
 import Sidebar from '@/components/sidebar/Sidebar';
 import Footer from '@/components/footer/Footer';
@@ -16,7 +16,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <body className="wp-primary wp-secondary wp-bg-primary wp-bg-secondary">
           <div className="flex flex-col h-screen">
             <Sidebar />
-            <main className="w-full pl-[300px] pt-16 pb-12">{children}</main>
+            <main className="w-full pl-[300px] pt-16 pb-12">
+              <div className="flex justify-end pr-6">
+                <ConnectWallet />
+              </div>
+              {children}
+            </main>
           </div>
           <Footer />
         </body>
