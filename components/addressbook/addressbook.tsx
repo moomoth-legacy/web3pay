@@ -2,6 +2,8 @@ import React from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import axios from 'axios';
+import { Button } from '../ui/button';
 
 function AddressForm() {
   const [formData, setFormData] = React.useState({
@@ -14,7 +16,7 @@ function AddressForm() {
     Note: '',
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -22,10 +24,19 @@ function AddressForm() {
     }));
   };
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(formData);
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/address-book`, formData);
+    } catch (error) {
+      console.error('Error submitting invoice:', error);
+    }
+  };
+
   return (
     <div className="flex items-center min-w-3/4">
       <form>
-
         <Label htmlFor="ClientName">Client Name</Label>
         <Input placeholder="Client Name" className="w-48" name="ClientName" value={formData.ClientName} onChange={handleInputChange} />
 
@@ -46,7 +57,7 @@ function AddressForm() {
 
         <Label htmlFor="Note">Note</Label>
         <Textarea name="Note" value={formData.Note} onChange={handleInputChange} />
-        <button type="submit">Add Bill To Address</button>
+        <Button type="submit" onClick={(event: any) => { handleSubmit(event); }}>Add Bill To Address</Button>
       </form>
     </div>
   );
