@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         activeChain="polygon"
       >
         <body className="wp-primary wp-secondary wp-bg-primary wp-bg-secondary">
-          <div className="flex h-screen overflow-hidden">
+          <div className="flex h-screen">
             <Sidebar />
             <main className="w-full pt-16">{children}</main>
           </div>
