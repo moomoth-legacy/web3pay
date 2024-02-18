@@ -34,3 +34,11 @@ Web3Pay is proudly powered by Thirdweb technologies, ensuring that our platform 
 ---
 
 Join Web3Pay today and be part of the revolution that's setting freelancers around the world up for success in the digital economy. Embrace the future of payments and unlock your potential with us.
+
+---
+
+## Next Milestone(s)
+
+Devs are invited to contribute!!
+
+- **Fiat-to-Crypto:** We are introducing the fiat-to-crypto payment experience soon, stay tuned!!
