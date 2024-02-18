@@ -57,7 +57,7 @@ function Sidebar() {
             className="flex items-center p-2 space-x-3 rounded-md"
           >
             <SiGoogledocs />
-            <Button variant="ghost" className="text-lg">Statment</Button>
+            <Button variant="ghost" className="text-lg">Transactions</Button>
           </Link>
         </li>
         <li className="rounded-sm">

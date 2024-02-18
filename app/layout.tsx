@@ -4,6 +4,7 @@ import React from 'react';
 import { ThirdwebProvider } from '@thirdweb-dev/react';
 import '@/app/globals.css';
 import Sidebar from '@/components/sidebar/Sidebar';
+import Footer from '@/components/footer/Footer';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,6 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="flex flex-col h-screen">
             <Sidebar />
             <main className="w-full pl-[300px] pt-16 pb-12">{children}</main>
+            <Footer />
           </div>
         </body>
       </ThirdwebProvider>

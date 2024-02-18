@@ -5,7 +5,7 @@
 @layer base {
   html,
   body {
-    height: auto;
+    @apply min-h-screen;
   }
 }
 
