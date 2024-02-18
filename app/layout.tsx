@@ -12,7 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         clientId={process.env.NEXT_PUBLIC_TW_CLIENT_ID}
         activeChain="polygon"
       >
-        <body className="bg-purple-300">
+        <body className="wp-primary wp-secondary wp-bg-primary wp-bg-secondary">
           <div className="flex h-screen overflow-hidden">
             <Sidebar />
             <main className="w-full pt-16">{children}</main>

@@ -9,6 +9,19 @@
   }
 }
 
+.wp-primary {
+  color: #ffffff;
+}
+.wp-secondary {
+  color: #510084;
+}
+.wp-bg-primary {
+  background-color: #cf81ff;
+}
+.wp-bg-secondary {
+  background-color: #6d0088;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
