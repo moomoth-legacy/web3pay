@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import { SiGoogledocs, SiWebmoney } from 'react-icons/si';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 function Sidebar() {
   return (
@@ -62,6 +63,10 @@ function Sidebar() {
           </Link>
         </li>
       </ul>
+      <div className="fixed inset-x-0 bottom-0 mb-16 ml-4">
+        Powered By
+        <Image className="mt-4" src="/Thirdweb-Logo-Transparent-White.png" width="150" height="22" alt="Thirdweb Logo" />
+      </div>
     </div>
   );
 }
