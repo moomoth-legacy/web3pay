@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { SiGoogledocs, SiWebmoney } from 'react-icons/si';
+import { Button } from '@/components/ui/button';
 
 function Sidebar() {
   return (
@@ -12,7 +13,7 @@ function Sidebar() {
             className="flex items-center p-2 space-x-3 rounded-md"
           >
             <SiWebmoney />
-            <span className="text-2xl">Web3Pay</span>
+            <h1 className="text-2xl font-extrabold">Web3Pay</h1>
           </Link>
         </li>
         <li className="rounded-sm">
@@ -21,7 +22,7 @@ function Sidebar() {
             className="flex items-center p-2 space-x-3 rounded-md"
           >
             <SiGoogledocs />
-            <span>Add Client</span>
+            <Button variant="ghost" className="text-lg">Add Client</Button>
           </Link>
         </li>
         <li className="rounded-sm">
@@ -30,7 +31,16 @@ function Sidebar() {
             className="flex items-center p-2 space-x-3 rounded-md"
           >
             <SiGoogledocs />
-            <span>Create Invoice</span>
+            <Button variant="ghost" className="text-lg">Create Invoice</Button>
+          </Link>
+        </li>
+        <li className="rounded-sm">
+          <Link
+            href="/manage-invoice"
+            className="flex items-center p-2 space-x-3 rounded-md"
+          >
+            <SiGoogledocs />
+            <Button variant="ghost" className="text-lg">Manage Invoices</Button>
           </Link>
         </li>
         <li className="rounded-sm">
@@ -39,7 +49,7 @@ function Sidebar() {
             className="flex items-center p-2 space-x-3 rounded-md"
           >
             <SiGoogledocs />
-            <span>Statment</span>
+            <Button variant="ghost" className="text-lg">Statment</Button>
           </Link>
         </li>
         <li className="rounded-sm">
@@ -48,7 +58,7 @@ function Sidebar() {
             className="flex items-center p-2 space-x-3 rounded-md"
           >
             <SiGoogledocs />
-            <span>Logout</span>
+            <Button variant="ghost" className="text-lg">Logout</Button>
           </Link>
         </li>
       </ul>

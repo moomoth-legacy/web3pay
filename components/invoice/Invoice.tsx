@@ -106,12 +106,11 @@ function InvoiceForm() {
             </SelectContent>
           </Select>
         </div>
-
+        <div className="flex flex-col">
+          <Label className="mt-8 mb-4" htmlFor="item">Item</Label>
+          <Input className="mt-2 mb-2" name="item" placeholder="Item" value={formData.item} onChange={handleInputChange} />
+        </div>
         <div className="flex flex-row mt-8 mb-4 space-x-8">
-          <div className="flex flex-col">
-            <Label className="mt-8 mb-4" htmlFor="item">Item</Label>
-            <Input className="mt-2 mb-2" name="item" placeholder="Item" value={formData.item} onChange={handleInputChange} />
-          </div>
           <div className="flex flex-col">
             <Label className="mt-8 mb-4" htmlFor="quantity">Quantity</Label>
             <Input className="mt-2 mb-2" name="quantity" placeholder="2" type="number" value={formData.quantity} onChange={handleInputChange} />

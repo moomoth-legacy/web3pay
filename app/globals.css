@@ -13,13 +13,13 @@
   color: #ffffff;
 }
 .wp-secondary {
-  color: #510084;
+  color: #ffffff;
 }
 .wp-bg-primary {
-  background-color: #cf81ff;
+  background-color: #4b0079;
 }
 .wp-bg-secondary {
-  background-color: #6d0088;
+  background-color: #5d0096;
 }
 
 @layer base {
