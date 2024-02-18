@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import MongooseConnection from '@/lib/mongodb';
 import { NextRequest, NextResponse } from 'next/server';
 import { customAlphabet } from 'nanoid';
@@ -8,19 +9,16 @@ export async function GET(request: NextRequest) {
   try {
     await MongooseConnection.connectAdmin();
     const code = request.nextUrl.searchParams.get('code');
-    const addresses = await ShortenUrl.find({ shortenURL: code }).populate('invoiceId');
+    const shortenUrl = await ShortenUrl.findOne({ shortenURL: code }).populate('invoiceId');
 
-    // Map each ShortenUrl document to a promise that populates the invoice field
-    const addressPromises = addresses.map(async (address) => {
-      address.invoice = await Invoice.findOne({ _id: address.invoiceId });
-      return address;
-    });
+    if (!shortenUrl) {
+      await MongooseConnection.disconnect();
+      return NextResponse.json({ message: 'Shorten URL not found' });
+    }
 
-    // Wait for all promises to resolve
-    const populatedAddresses = await Promise.all(addressPromises);
-
+    const clientAddress = await Invoice.findOne({ _id: shortenUrl.invoiceId._id }).populate('billTo');
     await MongooseConnection.disconnect();
-    return NextResponse.json({ addresses: populatedAddresses });
+    return NextResponse.json({ shortenUrl, clientAddress });
   } catch (error) {
     return NextResponse.error();
   }

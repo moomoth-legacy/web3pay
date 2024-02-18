@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/popover';
 import { CalendarIcon } from '@radix-ui/react-icons';
 import cn from '@/lib/utils';
-import { useAddress } from '@thirdweb-dev/react';
+import { MetaMaskWallet, NATIVE_TOKEN_ADDRESS, useAddress } from '@thirdweb-dev/react';
 import { Label } from '@radix-ui/react-label';
 
 // Assuming your form data type looks like this
@@ -67,6 +67,7 @@ function InvoiceForm({ status, code }: Props) {
   });
   const [billTo, setBillTo] = React.useState('');
   const [fromValue, setFormValue] = React.useState('');
+  const wallet = new MetaMaskWallet({ clientId: process.env.NEXT_PUBLIC_TW_CLIENT_ID });
   const calculateTotal = () => {
     const {
       quantity, price, discount, tax,
@@ -79,7 +80,7 @@ function InvoiceForm({ status, code }: Props) {
   };
   const [clients, setClients] = React.useState([]);
   const [issueDate, setIssueDate] = React.useState(new Date());
-
+  const [clientAddress, setClientAddress] = React.useState('');
   const handleIssueDate = (e: any) => {
     console.log(e);
     setIssueDate(e);
@@ -93,18 +94,26 @@ function InvoiceForm({ status, code }: Props) {
     }));
   };
 
+  const payAmount = async () => {
+    await wallet.transfer(clientAddress, formData.total, NATIVE_TOKEN_ADDRESS);
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    formData.total = calculateTotal();
-    formData.billTo = billTo;
-    formData.wallet = address;
-    formData.from = fromValue;
-    console.log(formData);
-    try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/invoice`, formData);
-      console.log(response.data.invoice);
-    } catch (error) {
-      console.error('Error submitting invoice:', error);
+    if (status !== 'update') {
+      formData.total = calculateTotal();
+      formData.billTo = billTo;
+      formData.wallet = address;
+      formData.from = fromValue;
+      console.log(formData);
+      try {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/invoice`, formData);
+        console.log(response.data.invoice);
+      } catch (error) {
+        console.error('Error submitting invoice:', error);
+      }
+    } else {
+      payAmount();
     }
   };
 
@@ -120,9 +129,9 @@ function InvoiceForm({ status, code }: Props) {
   async function fetchInvoice() {
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/create-shorten-url?code=${code.split('/')[1]}`);
-      const invoiceData = response.data.addresses[0].invoiceId;
+      const invoiceData = response.data.shortenUrl.invoiceId;
       console.log(invoiceData, response.data);
-
+      setClientAddress(response.data.clientAddress.billTo.Wallet);
       setFormData({
         ...invoiceData,
         issueDate: new Date(invoiceData.issueDate),

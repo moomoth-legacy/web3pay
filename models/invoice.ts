@@ -9,7 +9,8 @@ const invoiceSchema = new mongoose.Schema({
     trim: true,
   },
   billTo: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Address',
     required: true,
   },
   from: {
