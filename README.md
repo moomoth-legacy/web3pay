@@ -1,13 +1,13 @@
 # web3pay
  Cryptocurrency Billing Solutions for Web3 Companies and Freelancers
 
-# Web3Pay: Revolutionizing Freelance Payments with Crypto
+# Web3Pay: Revolutionizing Invoicing & Payments for Web3
 
-Welcome to Web3Pay, your gateway to seamless crypto-to-crypto invoicing, specifically designed to empower freelancers in emerging markets. Dive into our innovative solution that's transforming the freelance sector by making digital currency transactions smoother and more accessible than ever before.
+Welcome to Web3Pay, your gateway to seamless crypto-to-crypto and fiat-to-crypto invoicing, specifically designed to empower freelancers in emerging markets. Dive into our innovative solution that's transforming the freelance sector by making digital currency transactions smoother and more accessible than ever before.
 
 ## What is Crypto-to-Crypto Invoicing?
 
-Crypto-to-crypto invoicing is an innovative process allowing clients to make payments in one cryptocurrency (like Bitcoin, Ethereum, etc.), with the recipient receiving the payment in another cryptocurrency of their choice. This method seamlessly bridges various digital currencies, revolutionizing how payments are made and received in the freelance industry.
+Crypto-to-crypto invoicing is an innovative process allowing clients to make payments in cryptocurrency. This method seamlessly bridges various digital currencies, revolutionizing how payments are made, received and track in the freelance industry.
 
 ## Challenges for Freelancers with International Bank Transfers
 
@@ -25,7 +25,7 @@ While adopting crypto payments is appealing, it comes with its set of challenges
 - **Requirement for a Crypto Wallet:** Clients need to have a cryptocurrency wallet and basic knowledge of the crypto space.
 - **Barrier to Entry:** The need for understanding and managing digital currencies can deter many potential clients.
 
-Web3Pay's crypto-to-crypto invoicing solution elegantly overcomes these barriers, making digital currency payments feasible and advantageous for freelancers, without the traditional hassles.
+Web3Pay's crypto-to-crypto & fiat-to-crypto invoicing solution elegantly overcomes these barriers, making digital currency payments feasible and advantageous for freelancers, without the traditional hassles.
 
 ## Powered by Thirdweb
 
