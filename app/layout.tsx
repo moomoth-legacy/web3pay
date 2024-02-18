@@ -13,9 +13,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         activeChain="polygon"
       >
         <body className="wp-primary wp-secondary wp-bg-primary wp-bg-secondary">
-          <div className="flex h-screen">
+          <div className="flex flex-col h-screen">
             <Sidebar />
-            <main className="w-full pt-16">{children}</main>
+            <main className="w-full pl-[300px] pt-16 pb-12">{children}</main>
           </div>
         </body>
       </ThirdwebProvider>

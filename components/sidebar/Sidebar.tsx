@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 function Sidebar() {
   return (
-    <div className="flex-1 bg-purple-500 min-w-[250px]">
+    <div className="flex-1 bg-purple-500 min-w-[250px] fixed h-screen">
       <ul className="pt-2 pb-4 space-y-1 text-sm">
         <li className="rounded-sm">
           <Link

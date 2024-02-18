@@ -208,8 +208,8 @@ function InvoiceForm() {
           <Label className="mt-4 mb-4" htmlFor="Note">Note</Label>
           <Textarea className="mt-2 mb-2" name="note" value={formData.note} onChange={handleInputChange} />
         </div>
-        <div className="flex flex-col mt-32 mb-14">
-          <Label className="mt-4 mb-4" htmlFor="Note">Issue Date </Label>
+        <div className="flex flex-col mt-2 mb-4">
+          <Label className="mt-4 mb-4" htmlFor="Note">Due Date</Label>
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -220,7 +220,7 @@ function InvoiceForm() {
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {issueDate ? format(issueDate, 'PPP') : <span>Pick a Issue Date</span>}
+                {issueDate ? format(issueDate, 'PPP') : <span>Pick a Due Date</span>}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
@@ -237,7 +237,6 @@ function InvoiceForm() {
           <Button type="submit" variant="default" size="lg">Create Web3 Invoice</Button>
         </div>
       </form>
-      <Button type="submit" variant="default" size="lg" onClick={(event) => { createShortenURL(event); }}>Create Shorten URL</Button>
     </div>
   );
 }
