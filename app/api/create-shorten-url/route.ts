@@ -1,14 +1,26 @@
 import MongooseConnection from '@/lib/mongodb';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { customAlphabet } from 'nanoid';
 import ShortenUrl from '@/models/shortenUrl';
+import Invoice from '@/models/invoice';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     await MongooseConnection.connectAdmin();
-    const addresses = await ShortenUrl.find(); // Retrieve all documents from the collection
+    const code = request.nextUrl.searchParams.get('code');
+    const addresses = await ShortenUrl.find({ shortenURL: code }).populate('invoiceId');
+
+    // Map each ShortenUrl document to a promise that populates the invoice field
+    const addressPromises = addresses.map(async (address) => {
+      address.invoice = await Invoice.findOne({ _id: address.invoiceId });
+      return address;
+    });
+
+    // Wait for all promises to resolve
+    const populatedAddresses = await Promise.all(addressPromises);
+
     await MongooseConnection.disconnect();
-    return NextResponse.json({ addresses });
+    return NextResponse.json({ addresses: populatedAddresses });
   } catch (error) {
     return NextResponse.error();
   }

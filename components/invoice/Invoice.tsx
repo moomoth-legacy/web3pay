@@ -42,7 +42,7 @@ interface FormDataType {
   dueDate: Date;
 }
 
-function InvoiceForm() {
+function InvoiceForm({ status, code }: props) {
   const address = useAddress();
   const [formData, setFormData] = React.useState<FormDataType>({
     invoiceName: '',
@@ -114,24 +114,37 @@ function InvoiceForm() {
     }
   };
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/address-book`);
-        setClients(response.data.addresses);
-      } catch (error) {
-        console.error('Error submitting invoice:', error);
-      }
+  async function fetchData() {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/address-book`);
+      setClients(response.data.addresses);
+    } catch (error) {
+      console.error('Error submitting invoice:', error);
     }
+  }
 
-    fetchData();
-  }, []);
+  async function fetchInvoice() {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/create-shorten-url?code=${code.split('/')[1]}`);
+      console.log(response);
+    } catch (error) {
+      console.error('Error submitting invoice:', error);
+    }
+  }
+
+  useEffect(() => {
+    if (status !== 'update') {
+      fetchData();
+    } else {
+      fetchInvoice();
+    }
+  }, [code]);
 
   return (
     <div className="flex items-center ml-16 min-w-3/4">
       <form onSubmit={(event) => { handleSubmit(event); }}>
         <Label className="mt-8 mb-4" htmlFor="invoiceName">Invoice Name</Label>
-        <Input placeholder="Invoice #1" className="w-[600px]" name="invoiceName" value={formData.invoiceName} onChange={handleInputChange} />
+        <Input placeholder="Invoice #1" className="w-[600px]" name="invoiceName" value={formData.invoiceName} onChange={handleInputChange} readOnly={status === 'update'} />
         <div className="flex flex-row mt-8 mb-4 space-x-8">
           <div className="flex flex-col w-full">
             <Label className="mb-4" htmlFor="billTo">Bill To</Label>
