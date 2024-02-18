@@ -1,18 +1,18 @@
 'use client';
 
 import React from 'react';
-import { ConnectWallet, WalletConnect } from '@thirdweb-dev/react';
 import InvoiceForm from '@/components/invoice/Invoice';
+import { usePathname } from 'next/navigation';
 
 function Page() {
-  const wallet = new WalletConnect();
-  console.log(wallet);
-  return (
-    <>
-      <ConnectWallet />
-      <InvoiceForm />
-    </>
-  );
+  const pathname = usePathname();
+
+  // Check if pathname is defined before rendering InvoiceForm
+  if (!pathname) {
+    return null; // or any other fallback UI if you wish
+  }
+
+  return <InvoiceForm status="update" code={pathname} />;
 }
 
 export default Page;
