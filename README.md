@@ -42,3 +42,25 @@ Join Web3Pay today and be part of the revolution that's setting freelancers arou
 Devs are invited to contribute!!
 
 - **Fiat-to-Crypto:** We are introducing the fiat-to-crypto payment experience soon, stay tuned!!
+
+# Development Stack Overview
+
+A concise guide to the technologies that power our projects, ensuring high performance, scalability, and maintainability.
+
+---
+
+## Technologies
+
+- **Next.js**: A React framework for optimized web applications, supporting server-side rendering, static site generation, and client-side routing.
+
+- **Thirdweb**: A platform providing tools and SDKs for easily building, launching, and managing web3 and blockchain applications.
+
+- **MongoDB**: A flexible NoSQL database designed for scalability and complex data structures, storing data in JSON-like documents.
+
+- **React.js**: A JavaScript library developed by Facebook for building interactive and dynamic user interfaces with reusable components.
+
+- **TypeScript**: A typed superset of JavaScript that compiles to plain JavaScript, enhancing code quality and maintainability with static typing.
+
+- **Airbnb Code Style**: A comprehensive set of coding conventions and guidelines for JavaScript, promoting readability and maintainability of code.
+
+- **Tailwind CSS**: A utility-first CSS framework for creating custom designs directly in your markup, encouraging a more efficient styling workflow.
